@@ -57,7 +57,7 @@ pipeline {
 
          stage('Deploy') {
              steps {
-                 bat 'kubectl apply -f your-deployment.yaml'
+                 bat 'kubectl apply -f deployment.yaml'
              }
          }
     }
