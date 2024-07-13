@@ -1,59 +1,65 @@
 pipeline {
     agent any
-
+    
     environment {
         registry = 'https://registry.hub.docker.com'
         dockerImage = 'tanishaaa31/java-quiz-app:latest'
     }
-
+    
     tools {
-        // Specify the Gradle tool defined in Jenkins
+        // Specify the JDK installation configured in Jenkins
+        jdk 'jdk17'
+        // Specify the Gradle installation configured in Jenkins
         gradle 'gradle'
     }
 
     stages {
         stage('Checkout') {
             steps {
+                // Checkout the Git repository
                 git url: 'https://github.com/Tanishaaaaaaa/java-quiz-app.git', branch: 'main'
             }
         }
 
         stage('Build') {
             steps {
-                // Use 'gradle' command from the configured tool
-                sh 'gradle build'
+                // Build the project using Gradle
+                bat 'gradlew build'
             }
         }
 
         stage('Test') {
             steps {
-                // Use 'gradle' command for running tests
-                sh 'gradle test'
+                // Run tests using Gradle
+                bat 'gradlew test'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
+                    // Build Docker image
                     docker.build dockerImage
                 }
             }
         }
 
-         stage('Push Docker Image') {
+        stage('Push Docker Image') {
             steps {
                 script {
+                    // Push Docker image to Docker Hub
                     docker.withRegistry('https://registry.hub.docker.com', 'Docker-cred') {
                         docker.image(dockerImage).push()
                     }
                 }
             }
         }
+
         stage('Deploy') {
             steps {
                 script {
                     // Example: Deploying with Kubernetes
-                     sh "kubectl apply -f your-deployment.yaml"
+                    bat 'kubectl apply -f your-deployment.yaml'
                 }
             }
         }
