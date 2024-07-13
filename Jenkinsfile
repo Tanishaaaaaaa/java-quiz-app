@@ -31,7 +31,7 @@ pipeline {
         stage('Test') {
             steps {
                 // Run tests using Gradle
-                bat 'gradlew test'
+                bat 'gradle test'
             }
         }
 
