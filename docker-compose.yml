@@ -1,6 +1,6 @@
 version: '3'
 services:
   app:
-    image: tanishaaa31/java-quiz-app:latest  # Replace with your Docker Hub image URL
+    image: tanishaaa31/java-quiz-app:latest
     ports:
-      - "8080:8080"  # Map container port 8080 to host port 8080 (adjust port as needed)
+      - "8080:8080"
