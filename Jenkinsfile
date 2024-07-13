@@ -45,15 +45,17 @@ pipeline {
         }
 
         stage('Push Docker Image') {
-            steps {
-                // Push Docker image to Docker Hub
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'f0c6f2a4-287f-4ad9-b892-5851e97513d6') {
-                        docker.image(dockerImage).push()
-                    }
-                }
+        steps {
+        // Push Docker image to Docker Hub
+        script {
+            // Use withDockerRegistry to securely log in to Docker Hub
+            withDockerRegistry(credentialsId: 'f0c6f2a4-287f-4ad9-b892-5851e97513d6', url: 'https://registry.hub.docker.com') {
+                docker.image(dockerImage).push()
             }
         }
+    }
+}
+
 
         stage('Deploy') {
             steps {
