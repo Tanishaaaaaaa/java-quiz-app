@@ -37,8 +37,8 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
+                // Build Docker image
                 script {
-                    // Build Docker image
                     docker.build dockerImage
                 }
             }
@@ -46,9 +46,9 @@ pipeline {
 
         stage('Push Docker Image') {
             steps {
+                // Push Docker image to Docker Hub
                 script {
-                    // Push Docker image to Docker Hub
-                    docker.withRegistry('https://registry.hub.docker.com', 'Docker-cred') {
+                    docker.withRegistry('https://registry.hub.docker.com', 'f0c6f2a4-287f-4ad9-b892-5851e97513d6') {
                         docker.image(dockerImage).push()
                     }
                 }
@@ -57,10 +57,8 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                script {
-                    // Example: Deploying with Kubernetes
-                    bat 'kubectl apply -f your-deployment.yaml'
-                }
+                // Example: Deploying with Kubernetes
+                bat 'kubectl apply -f your-deployment.yaml'
             }
         }
     }
