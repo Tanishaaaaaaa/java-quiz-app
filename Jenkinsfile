@@ -46,7 +46,7 @@ pipeline {
             steps {
                 script {
                     // Example: Deploying with Kubernetes
-                    // sh "kubectl apply -f your-deployment.yaml"
+                     sh "kubectl apply -f your-deployment.yaml"
                 }
             }
         }
