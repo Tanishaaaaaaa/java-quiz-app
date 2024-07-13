@@ -55,14 +55,7 @@ stage('Push Docker Image') {
 
 
 
-        stage('Deploy') {
-            steps {
-                // Example: Deploying with Kubernetes
-                bat 'kubectl apply -f your-deployment.yaml'
-            }
-        }
-    }
-
+      
     post {
         success {
             echo 'Pipeline successfully executed!'
