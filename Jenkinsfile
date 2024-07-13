@@ -4,8 +4,11 @@ pipeline {
     environment {
         registry = 'https://registry.hub.docker.com'
         dockerImage = 'tanishaaa31/java-quiz-app:latest'
-        GRADLE_HOME = tool name: 'gradle', type: 'org.gradle.tooling.GradleInstallation'
-        PATH = "$GRADLE_HOME/bin:$PATH"
+    }
+
+    tools {
+        // Specify the Gradle tool defined in Jenkins
+        gradle 'gradle'
     }
 
     stages {
@@ -17,19 +20,15 @@ pipeline {
 
         stage('Build') {
             steps {
-                script {
-                    def gradleCommand = "${tool name: 'gradle', type: 'org.gradle.tooling.GradleInstallation'}/bin/gradle"
-                    sh "${gradleCommand} build"
-                }
+                // Use 'gradle' command from the configured tool
+                sh 'gradle build'
             }
         }
 
         stage('Test') {
             steps {
-                script {
-                    def gradleCommand = "${tool name: 'Gradle', type: 'org.gradle.tooling.GradleInstallation'}/bin/gradle"
-                    sh "${gradleCommand} test"
-                }
+                // Use 'gradle' command for running tests
+                sh 'gradle test'
             }
         }
 
@@ -41,7 +40,7 @@ pipeline {
             }
         }
 
-        stage('Push Docker Image') {
+         stage('Push Docker Image') {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'Docker-cred') {
@@ -50,12 +49,11 @@ pipeline {
                 }
             }
         }
-
         stage('Deploy') {
             steps {
                 script {
                     // Example: Deploying with Kubernetes
-                    sh "kubectl apply -f your-deployment.yaml"
+                     sh "kubectl apply -f your-deployment.yaml"
                 }
             }
         }
