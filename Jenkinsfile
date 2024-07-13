@@ -4,6 +4,8 @@ pipeline {
     environment {
         registry = 'https://registry.hub.docker.com'
         dockerImage = 'tanishaaa31/java-quiz-app:latest'
+        GRADLE_HOME = tool name: 'gradle', type: 'org.gradle.tooling.GradleInstallation'
+        PATH = "$GRADLE_HOME/bin:$PATH"
     }
 
     stages {
@@ -15,13 +17,19 @@ pipeline {
 
         stage('Build') {
             steps {
-                bat 'gradlew build'
+                script {
+                    def gradleCommand = "${tool name: 'gradle', type: 'org.gradle.tooling.GradleInstallation'}/bin/gradle"
+                    sh "${gradleCommand} build"
+                }
             }
         }
 
         stage('Test') {
             steps {
-                bat 'gradlew test'
+                script {
+                    def gradleCommand = "${tool name: 'Gradle', type: 'org.gradle.tooling.GradleInstallation'}/bin/gradle"
+                    sh "${gradleCommand} test"
+                }
             }
         }
 
@@ -33,7 +41,7 @@ pipeline {
             }
         }
 
-         stage('Push Docker Image') {
+        stage('Push Docker Image') {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'Docker-cred') {
@@ -42,11 +50,12 @@ pipeline {
                 }
             }
         }
+
         stage('Deploy') {
             steps {
                 script {
                     // Example: Deploying with Kubernetes
-                     sh "kubectl apply -f your-deployment.yaml"
+                    sh "kubectl apply -f your-deployment.yaml"
                 }
             }
         }
