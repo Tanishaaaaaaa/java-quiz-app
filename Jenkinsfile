@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     environment {
-        registry = 'https://registry.hub.docker.com'
+        registry = 'https://index.docker.io/v1/'
         dockerImage = 'tanishaaa31/java-quiz-app:latest'
     }
     
