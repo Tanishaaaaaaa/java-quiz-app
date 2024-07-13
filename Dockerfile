@@ -1,21 +1,18 @@
-# Use an official OpenJDK runtime as a parent image
+# Use an OpenJDK 17 JDK image as base
 FROM openjdk:17-jdk-alpine
 
-# Set the working directory inside the container
+# Copy the application code and necessary files
+COPY . /app
+
+# Set the working directory
 WORKDIR /app
 
-# Copy Gradle Wrapper files into the container
-COPY gradlew .
-COPY gradle ./gradle
-
-# Copy all other files
-COPY . .
-
-# Make the Gradle Wrapper executable
-RUN chmod +x gradlew
-
-# Run Gradle build using the wrapper (gradlew)
+# Build the application (if necessary)
 RUN ./gradlew build
 
-# Specify the command to run your application
-CMD ["java", "-cp", "build/classes/java/main", "com.example.quiz.QuizApp"]
+# Copy the entrypoint script into the Docker image and set it as executable
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
+# Specify the entrypoint script to run the application
+ENTRYPOINT ["/app/entrypoint.sh"]
