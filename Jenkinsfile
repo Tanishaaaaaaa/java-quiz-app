@@ -1,29 +1,45 @@
 pipeline {
     agent any
+    
+    environment {
+        registry = 'https://registry.hub.docker.com'
+        dockerImage = 'tanishaaa31/java-quiz-app:latest'
+    }
+    
+    tools {
+        // Specify the JDK installation configured in Jenkins
+        jdk 'jdk11'
+        // Specify the Gradle installation configured in Jenkins
+        gradle 'gradle'
+    }
 
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/<your-username>/java-quiz-app.git', branch: 'main'
+                // Checkout the Git repository
+                git url: 'https://github.com/Tanishaaaaaaa/java-quiz-app.git', branch: 'main'
             }
         }
 
         stage('Build') {
             steps {
-                bat 'gradlew build'
+                // Build the project using Gradle
+                bat 'gradle build'
             }
         }
 
         stage('Test') {
             steps {
-                bat 'gradlew test'
+                // Run tests using Gradle
+                bat 'gradle test'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build('yourusername/java-quiz-app:latest')
+                    // Build Docker image
+                    docker.build dockerImage
                 }
             }
         }
@@ -31,8 +47,9 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-                        docker.image('yourusername/java-quiz-app:latest').push()
+                    // Push Docker image to Docker Hub
+                    docker.withRegistry('https://registry.hub.docker.com', 'Docker-cred') {
+                        docker.image(dockerImage).push()
                     }
                 }
             }
@@ -41,9 +58,21 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    // Add your deployment steps here, e.g., using kubectl for Kubernetes
+                    // Example: Deploying with Kubernetes
+                    bat 'kubectl apply -f your-deployment.yaml'
                 }
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline successfully executed!'
+            // Add further success actions if needed
+        }
+        failure {
+            echo 'Pipeline failed!'
+            // Add further failure actions if needed
         }
     }
 }
