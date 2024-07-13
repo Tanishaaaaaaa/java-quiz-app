@@ -44,17 +44,18 @@ pipeline {
             }
         }
 
-        stage('Push Docker Image') {
-        steps {
-        // Push Docker image to Docker Hub
+       stage('Push Docker Image') {
+    steps {
         script {
-            // Use withDockerRegistry to securely log in to Docker Hub
-            withDockerRegistry(credentialsId: 'f0c6f2a4-287f-4ad9-b892-5851e97513d6', url: 'https://registry.hub.docker.com') {
+            // Log in to Docker Hub with credentials stored in Jenkins
+            docker.withRegistry('https://registry.hub.docker.com', 'f0c6f2a4-287f-4ad9-b892-5851e97513d6') {
+                // Push Docker image to Docker Hub
                 docker.image(dockerImage).push()
             }
         }
     }
 }
+
 
 
         stage('Deploy') {
