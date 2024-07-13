@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Run Gradle build using the wrapper (gradlew)
-RUN ./gradlew build
+RUN ./gradle build
 
 # Specify the command to run your application
 CMD ["java", "-cp", "build/classes/java/main", "com.example.quiz.QuizApp"]
