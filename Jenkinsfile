@@ -43,13 +43,10 @@ pipeline {
                 }
             }
         }
-
-       stage('Push Docker Image') {
+stage('Push Docker Image') {
     steps {
         script {
-            // Log in to Docker Hub with credentials stored in Jenkins
-            docker.withRegistry('https://index.docker.io/v1/', 'f0c6f2a4-287f-4ad9-b892-5851e97513d6') {
-                // Push Docker image to Docker Hub
+            withDockerRegistry([credentialsId: 'f0c6f2a4-287f-4ad9-b892-5851e97513d6', url: 'https://index.docker.io/v1/']) {
                 docker.image("tanishaaa31/java-quiz-app:latest").push()
             }
         }
