@@ -1,10 +1,15 @@
 pipeline {
     agent any
 
+    environment {
+        registry = 'https://registry.hub.docker.com'
+        dockerImage = 'yourusername/java-quiz-app:latest'
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/<your-username>/java-quiz-app.git', branch: 'main'
+                git url: 'https://github.com/Tanishaaaaaaa/java-quiz-app.git', branch: 'main'
             }
         }
 
@@ -23,7 +28,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build('yourusername/java-quiz-app:latest')
+                    docker.build dockerImage
                 }
             }
         }
@@ -31,8 +36,8 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-                        docker.image('yourusername/java-quiz-app:latest').push()
+                    docker.withRegistry( '', 'docker-hub-credentials') {
+                        docker.image(dockerImage).push()
                     }
                 }
             }
@@ -41,9 +46,21 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    // Add your deployment steps here, e.g., using kubectl for Kubernetes
+                    // Example: Deploying with Kubernetes
+                    // sh "kubectl apply -f your-deployment.yaml"
                 }
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline successfully executed!'
+            // Add further success actions if needed
+        }
+        failure {
+            echo 'Pipeline failed!'
+            // Add further failure actions if needed
         }
     }
 }
