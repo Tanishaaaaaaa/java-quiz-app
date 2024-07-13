@@ -20,9 +20,19 @@ public class QuizApp {
 
         for (int i = 0; i < questions.length; i++) {
             System.out.println(questions[i]);
-            String response = scanner.nextLine();
-            if (response.equalsIgnoreCase(answers[i])) {
-                score++;
+
+            // Check if there is input available before reading
+            if (scanner.hasNextLine()) {
+                String response = scanner.nextLine();
+
+                if (response.equalsIgnoreCase(answers[i])) {
+                    score++;
+                } else {
+                    System.out.println("Incorrect answer. Correct answer is: " + answers[i]);
+                }
+            } else {
+                System.out.println("No input available.");
+                // Handle the situation where no input is available
             }
         }
 
