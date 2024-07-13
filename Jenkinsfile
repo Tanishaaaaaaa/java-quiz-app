@@ -55,12 +55,11 @@ pipeline {
             }
         }
 
-        // Optional: Add a deployment stage if needed
-        // stage('Deploy') {
-        //     steps {
-        //         bat 'kubectl apply -f your-deployment.yaml'
-        //     }
-        // }
+         stage('Deploy') {
+             steps {
+                 bat 'kubectl apply -f your-deployment.yaml'
+             }
+         }
     }
 
     post {
