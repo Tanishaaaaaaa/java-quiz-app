@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         registry = 'https://registry.hub.docker.com'
-        dockerImage = 'yourusername/java-quiz-app:latest'
+        dockerImage = 'tanishaaa31/java-quiz-app:latest'
     }
 
     stages {
@@ -33,16 +33,15 @@ pipeline {
             }
         }
 
-        stage('Push Docker Image') {
+         stage('Push Docker Image') {
             steps {
                 script {
-                    docker.withRegistry( '', 'docker-hub-credentials') {
+                    docker.withRegistry('https://registry.hub.docker.com', 'Docker-cred') {
                         docker.image(dockerImage).push()
                     }
                 }
             }
         }
-
         stage('Deploy') {
             steps {
                 script {
