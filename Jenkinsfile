@@ -32,6 +32,7 @@ pipeline {
                 }
             }
         }
+
         stage('Test') {
             steps {
                 // Run tests using Gradle
@@ -59,12 +60,16 @@ pipeline {
             }
         }
 
-    //      stage('Deploy') {
-    //          steps {
-    //              bat 'kubectl apply -f C:/Users/Tanisha/path/to/deployment.yaml'
-    //          }
-    //      }
-    // }
+        // Uncomment and configure the Deploy stage as needed
+        /*
+        stage('Deploy') {
+            steps {
+                // Deploy using kubectl
+                bat 'kubectl apply -f C:/Users/Tanisha/path/to/deployment.yaml'
+            }
+        }
+        */
+    }
 
     post {
         success {
