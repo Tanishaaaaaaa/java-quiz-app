@@ -61,7 +61,7 @@ pipeline {
 
          stage('Deploy') {
              steps {
-                 bat 'kubectl apply -f deployment.yaml'
+                 bat 'kubectl apply -f C:\Users\Tanisha\java-quiz-app\deployment.yaml'
              }
          }
     }
