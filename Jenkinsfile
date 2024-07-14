@@ -23,11 +23,15 @@ pipeline {
 
         stage('Build') {
             steps {
-                // Build the project using Gradle
-                bat 'gradle build'
+                script {
+                    // Set JVM options for Gradle
+                    withEnv(['org.gradle.daemon.maxmemory=512m']) {
+                        // Execute Gradle build command
+                        sh 'gradle build'
+                    }
+                }
             }
         }
-
         stage('Test') {
             steps {
                 // Run tests using Gradle
