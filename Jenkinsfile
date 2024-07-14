@@ -59,12 +59,12 @@ pipeline {
             }
         }
 
-         stage('Deploy') {
-             steps {
-                 bat 'kubectl apply -f C:/Users/Tanisha/path/to/deployment.yaml'
-             }
-         }
-    }
+    //      stage('Deploy') {
+    //          steps {
+    //              bat 'kubectl apply -f C:/Users/Tanisha/path/to/deployment.yaml'
+    //          }
+    //      }
+    // }
 
     post {
         success {
