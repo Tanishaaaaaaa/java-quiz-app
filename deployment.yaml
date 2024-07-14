@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ci-cd-demo
+  name: java-quiz-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ci-cd-demo
+      app: java-quiz-app
   template:
     metadata:
       labels:
-        app: ci-cd-demo
+        app: java-quiz-app
     spec:
       containers:
-      - name: ci-cd-demo
-        image: tanishaaa31/ci-cd-demo:latest
+      - name: java-quiz-app
+        image: tanishaaa31/java-quiz-app:latest
         ports:
         - containerPort: 8080
