@@ -1,30 +1,32 @@
-# Use an appropriate base image
-FROM openjdk:17-jdk-alpine AS builder
+# Use an official OpenJDK runtime as a parent image
+FROM openjdk:17-jdk-alpine as builder
 
 # Set the working directory
 WORKDIR /app
 
-# Copy the Gradle wrapper script and necessary build files
+# Copy the Gradle wrapper and other necessary files
 COPY gradlew .
 COPY gradle ./gradle
 COPY build.gradle .
 COPY settings.gradle .
+
+# Copy the source code
 COPY src ./src
 
-# Ensure gradlew is executable (if needed)
+# Grant execution rights to the Gradle wrapper
 RUN chmod +x gradlew
 
 # Build the application
 RUN ./gradlew build
 
-# Example: Copy built artifact to a runtime image
+# Use a minimal runtime image
 FROM openjdk:17-jdk-alpine
 
 # Set the working directory
 WORKDIR /app
 
-# Copy the built artifact from the builder stage
-COPY --from=builder /app/build/libs/java-quiz-app.jar .
+# Copy the built JAR file from the build stage
+COPY --from=builder /app/build/libs/*.jar ./app.jar
 
-# Command to run the application
-CMD ["java", "-jar", "java-quiz-app.jar"]
+# Define the command to run the application
+CMD ["java", "-jar", "app.jar"]
