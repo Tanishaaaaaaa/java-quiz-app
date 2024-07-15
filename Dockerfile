@@ -1,18 +1,23 @@
-# Use an OpenJDK 17 JDK image as base
-FROM openjdk:17-jdk-alpine
-
-# Copy the application code and necessary files
-COPY . /app
+# Use an appropriate base image
+FROM openjdk:17-jdk-alpine AS builder
 
 # Set the working directory
 WORKDIR /app
 
-# Build the application (if necessary)
+# Copy the source code
+COPY . .
+
+# Build the application
 RUN ./gradlew build
 
-# Copy the entrypoint script into the Docker image and set it as executable
-COPY entrypoint.sh /app/entrypoint.sh
-RUN chmod +x /app/entrypoint.sh
+# Example: Copy built artifact to a runtime image
+FROM openjdk:17-jdk-alpine
 
-# Specify the entrypoint script to run the application
-ENTRYPOINT ["/app/entrypoint.sh"]
+# Set the working directory
+WORKDIR /app
+
+# Copy the built artifact from the builder stage
+COPY --from=builder /app/build/libs/java-quiz-app.jar .
+
+# Command to run the application
+CMD ["java", "-jar", "java-quiz-app.jar"]
