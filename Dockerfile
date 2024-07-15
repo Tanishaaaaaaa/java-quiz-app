@@ -8,8 +8,8 @@ WORKDIR /app
 COPY gradlew .
 COPY gradle ./gradle
 COPY build.gradle .
-COPY settings.gradle .
-COPY src ./src
+# COPY settings.gradle .
+# COPY src ./src
 
 # Ensure gradlew is executable (if needed)
 RUN chmod +x gradlew
