@@ -44,7 +44,7 @@ pipeline {
             steps {
                 // Build Docker image
                 script {
-                    dockerImage = docker.build("tanishaaa31/java-quiz-app:latest", "--progress=plain")
+                    dockerImage = docker.build("tanishaaa31/java-quiz-app:latest")
                 }
             }
         }
