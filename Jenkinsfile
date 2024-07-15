@@ -8,7 +8,7 @@ pipeline {
     
     tools {
         // Specify the JDK installation configured in Jenkins
-        jdk 'jdk11'
+        jdk 'jdk17'
         // Specify the Gradle installation configured in Jenkins
         gradle 'gradle'
     }
