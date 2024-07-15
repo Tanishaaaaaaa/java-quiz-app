@@ -27,7 +27,7 @@ pipeline {
                     // Set JVM options for Gradle
                     withEnv(['org.gradle.daemon.maxmemory=512m']) {
                         // Execute Gradle build command
-                        sh 'gradle build'
+                        bat 'gradle build'
                     }
                 }
             }
